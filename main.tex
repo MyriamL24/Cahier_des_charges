@@ -1,1 +1,295 @@
+\documentclass[a4paper]{report}
 
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}	
+\usepackage{soul}
+\usepackage{ulem}
+\usepackage{titlesec}
+\usepackage{sectsty}
+\usepackage{color}
+\usepackage[top=1.25in, bottom=1.25in, left=1in, right=1in]{geometry}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{url}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+
+\begin{document}
+
+%Images en-tête
+\begin{figure}[htbp]
+\begin{minipage}[c]{.45\linewidth}
+\begin{flushright}
+\includegraphics[width=6cm]{Bordeaux.png}\end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{.45\linewidth}
+\begin{flushleft}
+\includegraphics[width=6cm]{MaBioVis.jpg}
+\end{flushleft}
+\end{minipage}
+\end{figure}
+
+%titre
+\begin{center}
+\LARGE{Cahier des charges} \\
+
+\HRule \\[0.4cm]{
+\huge\bfseries Outil d'interrogation SQL-Analyses statistiques \\ [0.4cm]
+}
+\HRule \\[2cm]
+
+%Images
+
+\begin{figure}[htbp]
+\begin{minipage}[c]{.45\linewidth}
+\begin{flushright}
+\includegraphics[width=5cm]{latex.png}\end{flushright}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{.45\linewidth}
+\begin{flushleft}
+\includegraphics[width=6cm]{python.jpg}
+\end{flushleft}
+\end{minipage}
+\end{figure}
+\begin{center}
+\includegraphics[width=4cm]{sql.png}
+\end{center}
+
+%Auteurs
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Concepteurs du projet} :\\
+\vspace{1\baselineskip}
+        Amal \textsc{Dahmani}\\
+        Kevin \textsc{Jamart}\\
+        Khaoula \textsc{Jlassi}\\
+        Myriam \textsc{Lopez}\\
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Client} : Joris \textsc{Sansen}\\
+\end{flushright}
+\end{minipage}
+
+\begin{center}
+
+\large
+Master 1 - \textsc{Bioinformatique} \\
+Promotion 2014-2015
+
+\end{center}
+
+\end{center}
+
+\newpage
+
+
+%Sommaire
+\tableofcontents
+
+\newpage
+\addcontentsline{toc}{section}{Introduction}
+
+
+%Intro
+\section*{Introduction}
+
+Dans le cadre de l'élaboration de modèles performants pour la visualisation de données, l'équipe MaBioVis\cite{ref1} travaille actuellement sur un projet du thème de recherche EVADoMe\cite{ref2}. Ce projet concerne l'évaluation de la lisibilité des dessins de graphes. Cette étude a pour but de déterminer l'influence des différents dessins d'arêtes sur les performances de lecture et de manipulation des utilisateurs.\\
+
+Cette étude propose que plusieurs utilisateurs effectuent un exercice de recherche visuelle sur les différents dessins. Des paramètres de "performance" sont mesurés pour chacun d'eux et les résultats obtenus sont traités statistiquement.\\
+
+
+Pour faciliter la mise en place de ce projet, un outil informatique a été créé. C'est un script écrit en langage Perl, qui traite une base SQL, en extrait des données et effectue les tests statistiques nécessaires.
+Cet outil permet de créer histogrammes et graphiques pour l'interprétation des données, ainsi qu'un rapport PDF qui résume l'ensemble des informations et des résultats.\\
+
+Cependant, ce programme Perl est strictement adapté à l'unique base de donnée utilisée jusqu'à présent.
+De plus, l'écriture du programme présente un manque de modularité, ce qui rend sa relecture ou modification difficile. 
+Enfin, le script ne bénéficie pas d'interface graphique ce qui rend son utilisation austère et malaisée.\\
+
+Au sein de ce projet nous allons proposer un outil qui reprendra les fonctionnalités actuelles du programme Perl, en améliorant son utilisation et sa prise en main (réparation/modification).
+
+Dans le cadre de ce projet nous allons tâcher de proposer une interface graphique agréable et ergonomique dans le but d'accélérer et de faciliter l'étude et la manipulation de bases de données SQL.
+
+\section{Objectifs de cet outil}
+
+Pour une prise en main plus simple le logiciel doit proposer un affichage graphique.
+L'utilisateur ne fait alors que manipuler cet affichage pour pouvoir obtenir les mêmes résultats que ceux du logiciel original :\\
+\begin{itemize}
+\item Interface graphique simple
+\item Interrogation d'une base de données SQL
+\item Récupération des données
+\item Traitements statistiques
+\item Affichages de graphiques et histogrammes
+\item Ecriture modulaire d'un PDF (\LaTeX) reprenant les informations désirées
+\item Garder un historique des opérations effectuées\\
+\end{itemize}
+
+
+Ce nouveau programme doit pouvoir s'adapter à d'autres bases de données (PostgreSQL) afin d'être utilisable pour d'autres études.
+
+Le logiciel original manque de lisibilité dans la compréhension et la rédaction de son code. Pour palier à ce problème, notre nouvel outil doit faire preuve de modularité, dans le but d'être facilement et rapidement modifiable.
+
+
+\section{Etat de l'art}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																	 %
+% LISTE DE TOUT CE QUI EXISTE ET DONT ON A BESOIN POUR LE PROGRAMME  %
+%																	 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Les objectifs de notre programme se portent sur la création d'une interface graphique, l'exploitation d'une base de données, les calculs de statistiques, l'implantation d'histogrammes et/ou graphiques et la production d'un document PDF.\\
+
+
+\subsection*{Programmation du projet}
+
+Il nous importera d'utiliser un langage de programmation alliant de grandes possibilités de modularité ainsi qu'une simplicité pour sa rédaction, sa compréhension et sa modification.\\
+
+Dans cette optique il convient d'utiliser un \textit{langage interprété} (ou semi-interprété) plutôt qu'un \textit{langage compilé}. En effet bien que la compilation d'un langage présente des avantages pour son aspect multiplate-forme et sa rapidité d'exécution, la manipulation du code source reste moins aisée que celle d'un \textbf{langage interprété}.\\
+
+La \textit{programmation orientée} objet offre la possibilité de manipuler avec aisance différents objets rendant des tâches complexes plus faciles à manipuler. Cela étant la contrepartie est un code plus long et moins facilement lisible. De plus notre programme se veut définit autour de fonctions précises et simple d'exécution. C'est pourquoi il semble plus intéressant de s'orienter vers une \textbf{programmation procédurale}.\\
+
+Dans l'idée de modifications futures, notre programme doit pouvoir reposer sur une documentation solide. En effet il est plus simple d'améliorer et de manipuler un code source si la documentation du langage associée est complète. Il importe aussi de penser au différentes bibliothèques d'ores et déjà disponible afin de faciliter l'implémentation de nouvelles fonctions.\\
+
+Pour ce projet nous nous orienterons donc vers un langage inteprété permettant une programmation procédurale et reposant sur une documentation fournie.
+
+\subsection*{Langages en Bioinformatique}
+
+Les langages les plus utilisés en bioinformatique\cite{ref3} sont : \textit{C, C++, C\#, Java, Perl} et \textit{Python}. C++, C\# et Java sont des langages de programmation orientés objet. C est un langage compilé et connu pour sa difficulté de prise en main et de manipulation. En reprenant les points précédents on peut s'apercevoir que Python et Perl semblent être des candidats naturels pour la création de notre programme.\\
+
+Perl et Python\cite{ref4} reposent pour une grande partie sur des bibliothèques riches et développées. Soutenus tous les deux par des communautés importantes, une documentation en conséquence est disponible. De plus il semble que Perl soit légèrement plus performant que Python\cite{ref5}. Néanmoins, il est établi que Python est bien plus lisible que Perl. Devant ces différents arguments \textbf{Python} semble être le candidat idéal pour la réalisation de notre projet.\\
+
+L'article\cite{ref3} sur lequel est basé cette analyse date de 2008. En 2009, un nouveau langage appelé Julia\cite{ref6} est apparu. Rendu open-source en 2012, Julia est un langage de programmation de haut niveau, performant et dynamique pour le calcul scientifique. Il est inspiré de la syntaxe et des fonctionnalités de Python et Ruby, mais il vise le même champ d'applications que R : la manipulation de données et les analyses statistiques. Julia est un langage compilé ce qui lui permet d'être très rapide. Mais pour garder la flexibilité du typage dynamique, il est compilé "Just In Time" (à la volée). De plus, il permet de générer des modèles représentatifs de données très performants et esthétiques. \\
+
+Néanmoins, le langage reste jeune, de fait la documentation et la communauté sur laquelle il s'appuie est encore en développement. Ceci peut être une problématique dans le cadre d'ajout de nouvelles fonctions complexes, là où Python bénéficie d'ores et déjà de bibliothèques avancées et renseignées.\\ 
+
+%\sout{Nous avons donc cherché ce qu'il était possible de faire sur chacun de ces éléments\sout{, en termes d'informatique}.}\\
+
+%	En ce qui concerne les statistiques, le langage R, fait partie des langages les plus utilisés \sout{dans le domaine des statistiques}.
+%Existant depuis plus d'une décennie, sa disponibilité en open source n'a fait que favoriser le développement de nouveaux packages permettant de traiter à chaque fois de nouvelles problématiques.
+%\sout{\sout{Son utilisation} \textcolor{red}{R} est majoritairement \sout{recrutée} \textcolor{red}{utilisé} pour le traitement de données et l'analyse statistique.}\\
+
+%Le langage Julia \textcolor{red}{est} disponible en open source depuis 2012 \sout{n'existe que depuis peu}. C'est un langage de programmation de haut niveau et dynamique \textcolor{red}{.}\sout{, il} \textcolor{red}{C'est un langage} \sout{est} compilé ce qui le rend très rapide d'exécution. 
+%Il permet principalement d'effectuer des traitements statistiques assez puissants et de générer des modèles représentatifs de\sout{s} données très performants et esthétiques.
+%Il a une syntaxe simple d'utilisation, similaire à ce que l'on peut voir chez Python, Matlab ou R.
+%Selon les études de benchmarks, ce langage atteint presque la rapidité de C, qui est des centaines de fois plus importante que celle de R et des dizaines de fois plus que Matlab.\\ %%%% REFERENCE !!! %%%%
+
+%	Au contraire, le langage Ruby ne semble pas gérer (ou pas efficacement) l'analyse statistique, il nous faudrait donc passer par l'intermédiaire d'un autre langage pouvant le faire à sa place.  
+%    En revanche, ce langage propose un florilège de modules capables d'élaborer un GUI tels que QtRuby ou Shoes.
+%Le module shoes est par ailleurs réputé pour être le plus simple d'utilisation pour un résultat suffisamment esthétique.
+%Ruby est également un langage qui permet d'accéder rapidement à une base de donnée grâce au module QtRuby. Ceci constitue un atout considérable puisque nous devons manipuler une base de donnée et faire des requêtes sql.
+%    De plus il peut y avoir la possibilité de manipuler les données en passant par ce langage. En effet, il existe un framework web libre connu sous le nom de Rails, RoR ou encore Ruby on Rails. Il comprends l'un des ORM les plus populaires de ruby : ActiveRecord. 
+%    L'ORM ActiveRecord permet de relier les données d'une table contenue dans un SGBDR aux objets d'une application. En utilisant ce type de système, on peut stocker facilement les propriétés et les relations des objets dans une application, sans avoir besoin d'utiliser des instructions SQL et en limitant la quantité de code à écrire.\\
+    
+%    De même que Ruby, le langage Perl permet d'avoir accès aux données d'une SGBDR, cependant, son utilisation implique l'utilisation du langage SQL. Malheureusement, il n'est pas capable non plus de faire l'analyse statistique de manière efficace à moins de passer par une autre langage. En revanche, il propose un module, PerlTk grâce auquel une interface graphique peut être crée assez simplement. \\
+    
+%    Les langages Scilab, Matlab et Python quant à eux, regroupent tous les avantages retrouvés dans les langages de programmation cités plus hauts. Julia présente un moyen d'interfacer ses programme mais il reste assez rudimentaire et beaucoup trop ciblé sur l'aspect imagerie ce qui n'aide pas à la construction simple d'un interface dans notre cas ce qui est dommage étant donné sa puissance d'exécution.
+    
+%    Ruby reste un langage de programmation assez complexe d'utilisation. Même si la mise en place d'un interface avec Ruby semble être assez simple, l'exploitation des données de PostgreSQL nécessite de manipuler un langage orienté objet, ce qui n'est pas notre but en ce qui concerne ce projet. De la même manière, il sera difficile de faire de ce programme un outil modulaire.
+    
+%    Le langage R, bien que le plus utilisé aujourd'hui dans le monde des biostatistiques reste limité, il ne nous permettra pas d'élaborer un interface graphique et le combiner à un langage qui en sera capable ne suffirait pas à rendre notre conception efficace. 
+%    
+%    Finalement, les langages les plus intéressants à exploiter restent Matlab, Scilab et Python. Matlab est un logiciel propriétaire payant ce qui le rend moins attractif. En ce qui concerne Scilab, il dispose de tout ce qu'il nous faut pour mener à bien notre projet, le seul inconvénient étant que sa documentation reste relativement mince. En revanche, Python est reconnu pour l'exhaustivité et la clarté de sa documentation, grâce à son module pydoc spécialement conçu pour cette tâche. La facilité de compréhension de ce langage est également un atout majeur puisqu'en l'utilisant, notre outil pourra par la suite être retouché. De même nous savons que nous pourrons mettre facilement en place une modularité.
+%    De plus python est particulièrement répandu dans le monde scientifique, et possède de nombreuses extensions destinées aux applications numériques.
+    
+Dans le cadre de l'analyse de données, la programmation interactive et la visualisation des données, Python rivalise avec de nombreux autres langages spécifiques au domaine d'analyse de données. Python permet une large utilisation et manipulation des données dans divers domaines.\\
+
+Ces dernières années, Python a vu sa bibliothèque enrichie ce qui fait de lui une alternative intéressante pour la manipulation de données. Combiné avec ses capacités en programmation générale et didactique, \textbf{Python} semble être un excellent choix pour construire notre logiciel.
+    
+
+\section{Analyse des besoins}
+
+\subsection{Besoins fonctionnels}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																	 %
+% CE DONT ON A BESOIN POUR QUE LE PROGRAMME MARCHE COMME ON LE VEUT  %
+%																	 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Affichage graphique}
+
+La bibliothèque graphique d'origine pour le langage Python est Tkinter\cite{ref7}. Elle fonctionne avec la bibliothèque Tk\cite{ref8} pour permettre une interface considéré comme suffisante dans la plupart des cas. \\
+
+Il existe néanmoins d'autres bibliothèque d'interfaçage telles que Pmw\cite{ref9} (fonctionnant aussi avec Tk), ainsi que  wxPython\cite{ref10} pour wxWidgets\cite{ref11}, PyGTK\cite{ref12} pour GTK+\cite{ref13}, PyQt\cite{ref14} et PySide\cite{ref15} pour Qt\cite{ref16}, et enfin FxPy\cite{ref17} pour le FOX Toolkit\cite{ref18}. Ces dernières utilisent généralement des binding avec d'autres bibliothèques graphiques codées dans d'autres langages de programmation que Python. Pour garder une simplicité dans l'écriture du code, une facilité de manipulation, il convient de garder Python comme langage principal aussi pour l'interfaçage. C'est pourquoi l'utilisation de Tk et de Tkinter semble être le choix le plus pertinent. \\
+
+L'utilisation de Tk et Tkinter pourra néanmoins être complétée par d'autres bibliothèques telles que Pmw ou Tix\cite{ref19} permettant l'affichage de bulle d'aide par exemple. Grâce à ces différentes bibliothèques nous essaierons de créer une interface ergonomique et élégante rendant l'accès et l'interrogation de la base de données intuitifs. La modularité étant une part importante du projet il convient de construire une interface claire avec des parties distinctes afin d'avoir un accès facile et évident aux différentes fonctionnalités.
+
+\subsubsection{Gestionnaire de la base de données}
+
+Il existe plusieurs systèmes de gestion de base de données relationnelles, parmi eux se trouvent Oracle\cite{ref20} qui est le plus utilisé au monde, Microsoft Sql Server\cite{ref22} qui représente le principale concurrent d’Oracle, qui coûte moins cher dans sa version complète mais avec des  fonctionnalités et des performances moindres, MySQL\cite{ref23} qui offre l’avantage d’être simple et gratuit, il permet d’ailleurs de pouvoir utiliser une base de données sans la nécessité d’un DBA (DataBase Administrator: Administrateur de base de données) au sein de la structure, et malgré tout, ce système peut stocker de grandes quantités d’informations qui peuvent être utilisées dans des sites ou applications web. Psycopg2\cite{ref21} est l’adaptateur de base de données PostgreSQL le plus populaire pour le langage de programmation Python. Ses fonctions principales sont l’implémentation du python DB API 2.0 (interface standard des modules d’accès aux bases de donnée pour python) et la possibilité d’être lancé au sein de plusieurs processus à la fois, ce module permet l’utilisation d’un grand nombre de fonctions SQL. Sa librairie est pour la plupart écrite en C ce qui la rend efficace et sûre. Il est possible d’utiliser ce module des côtés serveur et client et permet une communication (même asynchrone) entre les deux. Ce module est utilisable sur python 2 et 3.
+
+L’application développée, elle doit pouvoir interroger une ou plusieurs bases de données, afficher les résultats des requêtes, et enfin utiliser ces résultats pour une analyse statistique. 
+
+On a choisis de gérer ça avec Psycopg2, celui ci propose un moteur de bases de données relationnelles accessibles par le langage SQL.On n'a généralement pas besoin d'installer Psycopg2 séparément car dans la plupart des cas il fait partie des modules python par défaut, mais si ce n'est pas le cas, il est impératif de l'installer sur la machine sur laquelle on travaille . Les premiers pas avec ce module sont relativement faciles, il prend en charge une grande partie des fonctionnalités SQL.
+ 
+
+\subsubsection{Traitement statistique}
+Le logiciel doit être susceptible de réaliser différents tests statistiques, afficher les résultats de ceux ci, ainsi que les graphes demandés(la nature des graphiques dépendra des besoins de l'utilisateur).
+
+Scipy\cite{ref24} est un écosystème de logiciels open-source pour les mathématiques, les sciences et l'ingénierie en Python.Il dispose de différents packages qui couvrent les différents besoins de notre logiciel.
+Ainsi nous allons utiliser la Scipy library. C'est la librairie Python la plus importante, elle permet notamment de nombreuses routines statistiques.Nous aussi serons amenés à utiliser Pandas\cite{ref25} qui est un package de python extrêmement efficace, puissant et flexible, il fournit des fonctions riches, conçues pour faciliter la manipulation de bases de données structurées(données tabulaires)\cite{ref26}.
+Il représente un outil critique permettant de faire de Python un environnement puissant et productif pour l'analyse des données.
+
+La partie graphique sera assurée par le module Matplotlib\cite{ref27}; c'est la bibliothèque Python la plus populaire pour produire des graphiques et visualiser de les données en 2D. Il s'intègre bien avec Pandas, offrant ainsi un environnement interactif confortable pour le traçage et l'exploration des données.
+
+\subsubsection{Génération du rapport PDF}
+Le rapport issu du traitement statistique sera formaté en \LaTeX  et généré en PDF. Pour cette tâche nous allons dans un premier temps générer un fichier Latex formaté. Ce fichier sera découpé offrant la possibilité de choisir les parties à intégrer au fichier PDF final.
+
+
+\subsection{Besoins non fonctionnels}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																	 %
+% CE QUI NOUS FAUT EN PLUS (...DU FAIT QUE CA MARCHE)				 %
+%																	 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Le programme doit être exécutable dans un environnement Linux. Cet outil s'exécute avec la version 2.7 de python, qui doit donc être installée sur l'ordinateur.\\
+
+L'interfaçage doit être facile d'accès, claire, intuitive et élégante. Elle doit permettre avec peu de recherche d'accéder aux différents tests statistiques, et autres fonctionnalités proposées.
+
+Le programme devrait se servir plus précisément des modules tkinter, Panda/Scipy/MAtplotlib et Psycopg2 respectivement pour la partie graphique, pour la partie statistique et pour gérer la base de données.
+
+De même, un environnement \LaTeX  doit être installé sur l'ordinateur afin que notre outil puisse générer les rapports de résultats.
+
+La base de données doit être écrite en langage SQL (PostgreSQL).
+
+\section{Annexes}
+
+\subsection{Diagramme de Gantt}
+
+\begin{center}
+\includegraphics[width=15cm]{D_Gantt.png}
+\end{center}
+
+\subsection{Glossaire}
+
+-Framework : correspond à un ensemble de composants logiciels ayant le même paradigme, ce qui constitue un cadre de travail. \\
+
+-GUI : Graphical User Interface, c'est l'acronyme utilisé pour désigner l'interface graphique. \\
+
+-Benchmark : C'est un test de performance qui permet de mesurer les performances d'un système pour le comparer à d'autres systèmes.\\
+
+-ORM : Object-Role Modeling. Cela correspond à une technique pour représenter des données ainsi que leurs relations, sous forme d'objets. Cette méthode est généralement implémentées par trois pattern possibles : Table Data Gateway, Active Record, Data Access Object.\\
+
+-SGBDR : Systeme de Gestion de Base de Données Relationnelle.\\
+
+-SQL : Structured Query Language, désigne un langage de requête structurée servant à exploiter des bases de données relationnelles.\\
+
+-UDF: User-defined functions, fonction définies par les utilisateurs.\\
+
+\bibliographystyle{ieeetr}
+\bibliography{CDC}
+
+\end{document}
